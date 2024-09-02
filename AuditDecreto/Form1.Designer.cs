@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             BtnCargar = new Button();
             FlPanel = new FlowLayoutPanel();
             BtnMonitorear = new Button();
@@ -52,6 +52,7 @@
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
+            txtPreview = new TextBox();
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             txtContrasena = new TextBox();
@@ -61,7 +62,7 @@
             dgvDecreto = new DataGridView();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             BtnPreview = new Button();
-            txtPreview = new TextBox();
+            pblogo = new PictureBox();
             menuStrip1.SuspendLayout();
             PnlFondo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -69,6 +70,7 @@
             PnlInicio.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDecreto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pblogo).BeginInit();
             SuspendLayout();
             // 
             // BtnCargar
@@ -151,7 +153,7 @@
             // cargarDecretoToolStripMenuItem
             // 
             cargarDecretoToolStripMenuItem.Name = "cargarDecretoToolStripMenuItem";
-            cargarDecretoToolStripMenuItem.Size = new Size(224, 26);
+            cargarDecretoToolStripMenuItem.Size = new Size(193, 26);
             cargarDecretoToolStripMenuItem.Text = "Cargar Decreto";
             cargarDecretoToolStripMenuItem.Click += cargarDecretoToolStripMenuItem_Click;
             // 
@@ -165,13 +167,13 @@
             // evaluaciónToolStripMenuItem1
             // 
             evaluaciónToolStripMenuItem1.Name = "evaluaciónToolStripMenuItem1";
-            evaluaciónToolStripMenuItem1.Size = new Size(224, 26);
+            evaluaciónToolStripMenuItem1.Size = new Size(163, 26);
             evaluaciónToolStripMenuItem1.Text = "Evaluación";
             // 
             // reporteToolStripMenuItem1
             // 
             reporteToolStripMenuItem1.Name = "reporteToolStripMenuItem1";
-            reporteToolStripMenuItem1.Size = new Size(224, 26);
+            reporteToolStripMenuItem1.Size = new Size(163, 26);
             reporteToolStripMenuItem1.Text = "Reporte";
             // 
             // evaluadoToolStripMenuItem
@@ -241,6 +243,16 @@
             label2.TabIndex = 0;
             label2.Text = "Bievenido a";
             // 
+            // txtPreview
+            // 
+            txtPreview.Location = new Point(122, 69);
+            txtPreview.Multiline = true;
+            txtPreview.Name = "txtPreview";
+            txtPreview.ReadOnly = true;
+            txtPreview.ScrollBars = ScrollBars.Vertical;
+            txtPreview.Size = new Size(864, 701);
+            txtPreview.TabIndex = 11;
+            // 
             // pictureBox2
             // 
             pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
@@ -300,7 +312,7 @@
             // 
             dgvDecreto.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDecreto.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDecreto.Location = new Point(25, 66);
+            dgvDecreto.Location = new Point(25, 69);
             dgvDecreto.Name = "dgvDecreto";
             dgvDecreto.RowHeadersWidth = 51;
             dgvDecreto.Size = new Size(1488, 453);
@@ -308,16 +320,16 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            chart1.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            chart1.Legends.Add(legend2);
             chart1.Location = new Point(25, 528);
             chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            chart1.Series.Add(series2);
             chart1.Size = new Size(1488, 245);
             chart1.TabIndex = 9;
             chart1.Text = "chart1";
@@ -332,25 +344,26 @@
             BtnPreview.UseVisualStyleBackColor = true;
             BtnPreview.Click += BtnPreview_Click;
             // 
-            // txtPreview
+            // pblogo
             // 
-            txtPreview.Location = new Point(243, 66);
-            txtPreview.Multiline = true;
-            txtPreview.Name = "txtPreview";
-            txtPreview.ReadOnly = true;
-            txtPreview.ScrollBars = ScrollBars.Vertical;
-            txtPreview.Size = new Size(951, 672);
-            txtPreview.TabIndex = 11;
+            pblogo.Image = (Image)resources.GetObject("pblogo.Image");
+            pblogo.Location = new Point(329, 80);
+            pblogo.Name = "pblogo";
+            pblogo.Size = new Size(872, 679);
+            pblogo.SizeMode = PictureBoxSizeMode.CenterImage;
+            pblogo.TabIndex = 12;
+            pblogo.TabStop = false;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1562, 819);
+            Controls.Add(pblogo);
             Controls.Add(txtPreview);
+            Controls.Add(dgvDecreto);
             Controls.Add(BtnPreview);
             Controls.Add(chart1);
-            Controls.Add(dgvDecreto);
             Controls.Add(FlPanel);
             Controls.Add(PnlInicio);
             Controls.Add(PnlFondo);
@@ -372,6 +385,7 @@
             PnlInicio.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvDecreto).EndInit();
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pblogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -408,5 +422,6 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private Button BtnPreview;
         private TextBox txtPreview;
+        private PictureBox pblogo;
     }
 }

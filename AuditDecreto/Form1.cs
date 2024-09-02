@@ -16,6 +16,7 @@ namespace AuditDecreto
         public Form1()
         {
             InitializeComponent();
+            dgvDecreto.CellClick += dgvDecreto_CellClick;
         }
 
         private void CargarDatos()
@@ -96,7 +97,9 @@ namespace AuditDecreto
                                 UseColumnTextForButtonValue = true,
                                 Width = 50
                             };
+                            dgvDecreto.Columns.Add("Column","Observaciones");
                             dgvDecreto.Columns.Add(checkBoxAdjunto);
+                            dgvDecreto.Columns.Add("RutaArchivo", "Ruta del Archivo");
 
                             dgvDecreto.Rows.Add(reader["DecretoNombre"].ToString());
 
@@ -144,6 +147,35 @@ namespace AuditDecreto
                 }
             }
         }
+
+        // Manejar el evento CellClick para el DataGridView
+        private void dgvDecreto_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Verificar si el clic fue en la columna de botones "AdjuntoColumn"
+            if (e.RowIndex >= 0 && dgvDecreto.Columns[e.ColumnIndex].Name == "AdjuntoColumn")
+            {
+                // Crear y configurar el diálogo para seleccionar archivos
+                OpenFileDialog openFileDialog = new OpenFileDialog
+                {
+                    Title = "Seleccione un archivo",
+                    Filter = "Todos los archivos (*.*)|*.*" // Puedes ajustar el filtro a tus necesidades
+                };
+
+                // Mostrar el diálogo y verificar si el usuario seleccionó un archivo
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string selectedFilePath = openFileDialog.FileName;
+
+                    // Aquí puedes agregar la lógica para manejar el archivo adjunto
+                    // Por ejemplo, mostrar un mensaje de confirmación
+                    MessageBox.Show($"Archivo '{selectedFilePath}' adjuntado correctamente.", "Archivo Adjuntado");
+
+                    // Opcional: Puedes guardar la ruta del archivo o hacer algo con él
+                     dgvDecreto.Rows[e.RowIndex].Cells["RutaArchivo"].Value = selectedFilePath;
+                }
+            }
+        }
+
 
         private void BtnCargar_Click(object sender, EventArgs e)
         {
@@ -274,6 +306,7 @@ namespace AuditDecreto
             reporte.Add($"El objetivo de esta evaluación es determinar el grado de cumplimiento de Banco ejemplo con las normas establecidas en Ley de Panama. " +
                         "La evaluación se ha llevado a cabo de acuerdo con los parámetros establecidos por [Organismo o entidad reguladora, si aplica], " +
                         "considerando los artículos, títulos e incisos relevantes para la actividad de la entidad.\n");
+
             reporte.Add("Metodología de evaluación:");
             reporte.Add($"Se realizó una revisión exhaustiva de los procedimientos, prácticas y documentación de Banco ejemplo en relación con los requisitos legales especificados en  Ley de Panama. " +
                         "Cada artículo e inciso relevante fue analizado para determinar si se cumple, no se cumple o se cumple parcialmente. " +
@@ -281,6 +314,7 @@ namespace AuditDecreto
 
             int totalFilasEvaluadas = 0;
             int noCumpleMarcados = 0;
+            int parcialMarcados = 0;
 
 
             // Recorrer las filas del DataGridView
@@ -294,14 +328,43 @@ namespace AuditDecreto
 
                     // Verificar si el CheckBox de "No Cumple" está marcado
                     bool noCumple = Convert.ToBoolean(row.Cells["NoCumpleColumn"].Value);
+                    bool parcial = Convert.ToBoolean(row.Cells["CumplePColumn"].Value);
 
                     if (noCumple)
                     {
                         // Obtener los datos de la fila
                         string descripcion = row.Cells["Column"].Value?.ToString() ?? "Sin descripción";
+                        string observaciones = row.Cells[4].Value?.ToString() ?? "Sin observaciones";
+                        string adjunto = row.Cells[6].Value?.ToString() ?? "Sin adjunto";
+                        // string observaciones = row.Cells["Observaciones"].Value?.ToString() ?? "Sin observaciones";
+
 
                         // Construir la línea del reporte con la descripción del artículo que no cumple
                         string lineaReporte = $"\nDescripción: {descripcion}\n" +
+                                              $"Observaciones: {observaciones}\n" +
+                                              $"Adjunto: {adjunto}\n" +
+                                              "---------------------------";
+
+                        // Agregar la línea al reporte
+                        reporte.Add(lineaReporte);
+
+                        // Contar los artículos que no cumplen
+                        noCumpleMarcados++;
+                    }
+
+                    if (parcial)
+                    {
+                        // Obtener los datos de la fila
+                        string descripcion = row.Cells["Column"].Value?.ToString() ?? "Sin descripción";
+                        string observaciones = row.Cells[4].Value?.ToString() ?? "Sin observaciones";
+                        string adjunto = row.Cells[6].Value?.ToString() ?? "Sin adjunto";
+                        // string observaciones = row.Cells["Observaciones"].Value?.ToString() ?? "Sin observaciones";
+
+
+                        // Construir la línea del reporte con la descripción del artículo que no cumple
+                        string lineaReporte = $"\nDescripción: {descripcion}\n" +
+                                              $"Observaciones: {observaciones}\n" +
+                                              $"Adjunto: {adjunto}\n" +
                                               "---------------------------";
 
                         // Agregar la línea al reporte
@@ -317,6 +380,9 @@ namespace AuditDecreto
             double porcentajeNoCumple = (totalFilasEvaluadas > 0) ? (noCumpleMarcados / (double)totalFilasEvaluadas) * 100 : 0;
 
             // Agregar información resumen al reporte
+            reporte.Add("\n==========================================");
+            reporte.Add("  Resumen de Resultados");
+            reporte.Add("==========================================");
             reporte.Add($"Total de artículos evaluados: {totalFilasEvaluadas}");
             reporte.Add($"Total de artículos que no cumplen: {noCumpleMarcados}");
             reporte.Add($"Porcentaje de incumplimiento: {porcentajeNoCumple:0.00}%");
@@ -332,10 +398,6 @@ namespace AuditDecreto
                             "Reporte Generado", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-
-
-
-
         private void BtnReporte_Click(object sender, EventArgs e)
         {
             // Definir la ruta del archivo de reporte
@@ -345,41 +407,9 @@ namespace AuditDecreto
             using (StreamWriter writer = new StreamWriter(rutaReporte))
             {
                 GenerarReporteNoCumple();
-                //writer.WriteLine("Reporte de Artículos que No Cumplen:");
-                //writer.WriteLine("=====================================");
-
-                //foreach (Control control in FlPanel.Controls)
-                //{
-                //    if (control is FlowLayoutPanel pnlArticulo)
-                //    {
-                //        foreach (Control item in pnlArticulo.Controls)
-                //        {
-                //            if (item is CheckBox checkBox)
-                //            {
-                //                if ((int)checkBox.Tag == 2 && checkBox.Checked) // CheckBox "No Cumple"
-                //                {
-                //                    // Encontrar el artículo correspondiente
-                //                    var lblArticulo = pnlArticulo.Controls.OfType<Label>().FirstOrDefault(lbl => lbl.Font.Bold && lbl.Text != string.Empty);
-                //                    if (lblArticulo != null)
-                //                    {
-                //                        writer.WriteLine($"Artículo: {lblArticulo.Text}");
-                //                        writer.WriteLine("Observaciones: ");
-                //                        // Agregar observaciones si están presentes
-                //                        var txtObservaciones = pnlArticulo.Controls.OfType<TextBox>().FirstOrDefault();
-                //                        if (txtObservaciones != null)
-                //                        {
-                //                            writer.WriteLine(txtObservaciones.Text);
-                //                        }
-                //                        writer.WriteLine();
-                //                    }
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
             }
 
-            MessageBox.Show("Reporte generado exitosamente en 'reporte_no_cumple.txt'.", "Reporte Generado");
+            //MessageBox.Show("Reporte generado exitosamente en 'reporte_no_cumple.txt'.", "Reporte Generado");
         }
 
         private void evaluadorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -401,7 +431,6 @@ namespace AuditDecreto
             BtnMonitorear.Visible = false;
             BtnReporte.Visible = false;
             BtnPreview.Visible = false;
-
         }
 
 
@@ -409,12 +438,14 @@ namespace AuditDecreto
 
         private void iniciarSesiónToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            pblogo.Visible = false;
             PnlFondo.Visible = true;
             PnlInicio.Visible = true;
         }
 
         private void btnInicio_Click(object sender, EventArgs e)
         {
+            
             string correo = txtUsuario.Text;
             string contrasena = txtContrasena.Text;
 
@@ -496,6 +527,12 @@ namespace AuditDecreto
             PnlInicio.Visible = true;
             txtUsuario.Text = "";
             txtContrasena.Text = "";
+            dgvDecreto.Visible = false;
+            chart1.Visible = false;
+            BtnMonitorear.Visible = false;
+            BtnPreview.Visible = false;
+            BtnReporte.Visible  = false;
+            pblogo.Visible =false;
         }
 
         private void cargarDecretoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -514,24 +551,6 @@ namespace AuditDecreto
 
         private void BtnPreview_Click(object sender, EventArgs e)
         {
-            //// Especificar la ruta del archivo de reporte
-            //string rutaArchivo = @"C:\Users\hilver.guzman\source\repos\AuditDecreto\AuditDecreto\bin\Debug\net8.0-windows\ReporteNoCumple.txt";
-
-            //// Verificar si el archivo existe antes de intentar leerlo
-            //if (File.Exists(rutaArchivo))
-            //{
-            //    // Leer el contenido del archivo
-            //    string contenido = File.ReadAllText(rutaArchivo);
-
-            //    // Mostrar el contenido en el TextBox de vista previa
-            //    txtPreview.Text = contenido;
-            //}
-            //else
-            //{
-            //    // Mostrar un mensaje si el archivo no existe
-            //    MessageBox.Show("El archivo de reporte no se encontró. Por favor, genera el reporte antes de intentar visualizarlo.",
-            //                    "Archivo No Encontrado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            //}
         }
 
         private void resultadoEvaluaciónToolStripMenuItem_Click(object sender, EventArgs e)
