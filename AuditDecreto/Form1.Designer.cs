@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             BtnCargar = new Button();
             FlPanel = new FlowLayoutPanel();
             BtnMonitorear = new Button();
@@ -63,6 +63,9 @@
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             BtnPreview = new Button();
             pblogo = new PictureBox();
+            LblCumple = new Label();
+            LblNocumple = new Label();
+            LblParcial = new Label();
             menuStrip1.SuspendLayout();
             PnlFondo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -320,16 +323,16 @@
             // 
             // chart1
             // 
-            chartArea2.Name = "ChartArea1";
-            chart1.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            chart1.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            chart1.Legends.Add(legend1);
             chart1.Location = new Point(25, 528);
             chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            chart1.Series.Add(series1);
             chart1.Size = new Size(1488, 245);
             chart1.TabIndex = 9;
             chart1.Text = "chart1";
@@ -354,11 +357,41 @@
             pblogo.TabIndex = 12;
             pblogo.TabStop = false;
             // 
+            // LblCumple
+            // 
+            LblCumple.AutoSize = true;
+            LblCumple.Location = new Point(25, 790);
+            LblCumple.Name = "LblCumple";
+            LblCumple.Size = new Size(12, 20);
+            LblCumple.TabIndex = 13;
+            LblCumple.Text = ".";
+            // 
+            // LblNocumple
+            // 
+            LblNocumple.AutoSize = true;
+            LblNocumple.Location = new Point(329, 790);
+            LblNocumple.Name = "LblNocumple";
+            LblNocumple.Size = new Size(12, 20);
+            LblNocumple.TabIndex = 14;
+            LblNocumple.Text = ".";
+            // 
+            // LblParcial
+            // 
+            LblParcial.AutoSize = true;
+            LblParcial.Location = new Point(592, 790);
+            LblParcial.Name = "LblParcial";
+            LblParcial.Size = new Size(12, 20);
+            LblParcial.TabIndex = 15;
+            LblParcial.Text = ".";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1562, 819);
+            Controls.Add(LblParcial);
+            Controls.Add(LblNocumple);
+            Controls.Add(LblCumple);
             Controls.Add(pblogo);
             Controls.Add(txtPreview);
             Controls.Add(dgvDecreto);
@@ -423,5 +456,8 @@
         private Button BtnPreview;
         private TextBox txtPreview;
         private PictureBox pblogo;
+        private Label LblCumple;
+        private Label LblNocumple;
+        private Label LblParcial;
     }
 }

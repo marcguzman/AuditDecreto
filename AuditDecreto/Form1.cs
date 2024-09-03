@@ -225,6 +225,9 @@ namespace AuditDecreto
                             $"No Cumple: {noCumpleMarcados} de {totalFilasEvaluadas} ({porcentajeNoCumple:0.00}%)\n" +
                             $"Cumple Parcialmente: {cumpleParcialmenteMarcados} de {totalFilasEvaluadas} ({porcentajeCumpleParcial:0.00}%)",
                             "Monitoreo de Cumplimiento", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LblCumple.Text = $"Cumple: {cumpleMarcados} de {totalFilasEvaluadas} ({porcentajeCumple:0.00}%)";
+            LblNocumple.Text = $"No Cumple: {noCumpleMarcados} de {totalFilasEvaluadas} ({porcentajeNoCumple:0.00}%)";
+            LblParcial.Text = $"Cumple Parcialmente: {cumpleParcialmenteMarcados} de {totalFilasEvaluadas} ({porcentajeCumpleParcial:0.00}%)";
             ActualizarGrafico(cumpleMarcados, noCumpleMarcados, cumpleParcialmenteMarcados);
         }
 
@@ -265,7 +268,11 @@ namespace AuditDecreto
                             $"No Cumple: {noCumpleMarcados} de {totalFilasEvaluadas} ({porcentajeNoCumple:0.00}%)\n" +
                             $"Cumple Parcialmente: {cumpleParcialmenteMarcados} de {totalFilasEvaluadas} ({porcentajeCumpleParcial:0.00}%)",
                             "Monitoreo de Cumplimiento", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            LblCumple.Text = "Cumple: {cumpleMarcados} de {totalFilasEvaluadas} ({porcentajeCumple:0.00}%)";
+            LblNocumple.Text = "No Cumple: {noCumpleMarcados} de {totalFilasEvaluadas} ({porcentajeNoCumple:0.00}%)";
+            LblParcial.Text = "Cumple Parcialmente: {cumpleParcialmenteMarcados} de {totalFilasEvaluadas} ({porcentajeCumpleParcial:0.00}%)";
             ActualizarGrafico(cumpleMarcados, noCumpleMarcados, cumpleParcialmenteMarcados);
+
         }
 
         private void ActualizarGrafico(int cumple, int noCumple, int cumpleParcial)
@@ -533,6 +540,9 @@ namespace AuditDecreto
             BtnPreview.Visible = false;
             BtnReporte.Visible  = false;
             pblogo.Visible =false;
+            LblCumple.Visible = false;
+            LblNocumple.Visible = false;
+            LblParcial.Visible = false;
         }
 
         private void cargarDecretoToolStripMenuItem_Click(object sender, EventArgs e)
